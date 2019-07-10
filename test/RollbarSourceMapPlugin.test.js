@@ -56,6 +56,16 @@ describe('RollbarSourceMapPlugin', function() {
       expect(this.plugin).toInclude({ includeChunks: [] });
     });
 
+    it('should default limitParallelUpload to Infinity', function() {
+      expect(this.plugin).toInclude({ limitParallelUpload: Infinity });
+    });
+
+    it('should accept number value for limitParallelUpload', function() {
+      const options = Object.assign({}, this.options, { limitParallelUpload: 10 });
+      const plugin = new RollbarSourceMapPlugin(options);
+      expect(plugin).toInclude({ limitParallelUpload: 10 });
+    });
+
     it('should accept string value for includeChunks', function() {
       const options = Object.assign({}, this.options, { includeChunks: 'foo' });
       const plugin = new RollbarSourceMapPlugin(options);

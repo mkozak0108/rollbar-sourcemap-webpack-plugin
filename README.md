@@ -57,6 +57,9 @@ The base url for the cdn where your production bundles are hosted or a function 
 #### `includeChunks: string | [string]` **(optional)**
 An array of chunks for which sourcemaps should be uploaded. This should correspond to the names in the webpack config `entry` field. If there's only one chunk, it can be a string rather than an array. If not supplied, all sourcemaps emitted by webpack will be uploaded, including those for unnamed chunks.
 
+#### `limitParallelUpload: number` **(default: `Infinity`)**
+A number indicates how much source maps can be uploaded in parallel. 
+
 #### `silent: boolean` **(default: `false`)**
 If `false`, success and warning messages will be logged to the console for each upload. Note: if you also do not want to see errors, set the `ignoreErrors` option to `true`.
 

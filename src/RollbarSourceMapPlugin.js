@@ -13,6 +13,7 @@ class RollbarSourceMapPlugin {
     version,
     publicPath,
     includeChunks = [],
+    limitParallelUpload = Infinity,
     silent = false,
     ignoreErrors = false,
     rollbarEndpoint = ROLLBAR_ENDPOINT
@@ -21,6 +22,7 @@ class RollbarSourceMapPlugin {
     this.version = version;
     this.publicPath = publicPath;
     this.includeChunks = [].concat(includeChunks);
+    this.limitParallelUpload = limitParallelUpload;
     this.silent = silent;
     this.ignoreErrors = ignoreErrors;
     this.rollbarEndpoint = rollbarEndpoint;
@@ -120,8 +122,9 @@ class RollbarSourceMapPlugin {
   uploadSourceMaps(compilation, cb) {
     const assets = this.getAssets(compilation);
     const upload = this.uploadSourceMap.bind(this, compilation);
+    const limit = this.limitParallelUpload;
 
-    async.each(assets, upload, (err, results) => {
+    async.eachLimit(assets, limit, upload, (err, results) => {
       if (err) {
         return cb(err);
       }
